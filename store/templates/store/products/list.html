@@ -1,0 +1,90 @@
+{% extends "store/base.html" %}
+{% block title %} Shop{% endblock title %}
+{%block body %}
+
+<div class="container mt-4">
+  <div class="row text-center">
+    <div class="col-sm-12 col-md-2 mt-1 ">
+      <div class="row border">
+        <form>
+          <div class="col-12">
+            <label class="fs-5 fw-bolder mt-3">Categories</label>
+          </div>
+          <div class="col-12">
+            <select class="form-select lwidth m-auto my-3" aria-label="Default select example">
+              <option selected>Categories</option>
+              {% for category in category_list%}
+              <option value="{{category.name}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="fs-5 fw-bolder">Price</label>
+          </div>
+          <div class="col-12">
+            <input type="text" class="form-control" placeholder="From" aria-label="Min Price">
+          </div>
+          <label class="fs-5 fw-bolder ">-</label>
+          <div class="col-12 ">
+            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price">
+          </div>
+          <button class="btn btn-outline-primary my-3" type="submit">Apply filters</button>
+      </div>
+    </div>
+    </form>
+    <div class="col-sm-12 col-md-9 mx-auto">
+      <div class="row">
+        {%for product in object_list%}
+        <a href="#" class="clickable-div">
+          <div class="row products mt-1 border-top">
+            <div class="col-4 mt-1 mb-1 ">
+              <img class="img-fluid rounded float-start w-10" src="{{ product.image.url}}" alt="product_image" />
+            </div>
+            <div class="col-2 m-auto ">
+              <h4>{{product.name}}</h4>
+              <h5>{{product.price}} zł</h5>
+            </div>
+          </div>
+        </a>
+        {%endfor%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<ul class="pagination justify-content-center pagination-lg mt-4">
+  {% if page_obj.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page=1">First</a>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+    <span class="page-link">First</span>
+  </li>
+  <li class="page-item disabled">
+    <span class="page-link">Previous</span>
+  </li>
+  {% endif %}
+  <li class="page-item active" aria-current="page">
+    <span class="page-link">{{ page_obj.number }}</span>
+  </li>
+  {% if page_obj.has_next %}
+  <li class="page-item">
+    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+  </li>
+  <li class="page-item">
+    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+    <span class="page-link">Next</span>
+  </li>
+  <li class="page-item disabled">
+    <span class="page-link">Last</span>
+  </li>
+  {% endif %}
+</ul>
+{% endblock body %}
