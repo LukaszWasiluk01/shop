@@ -35,14 +35,14 @@
     <div class="col-sm-12 col-md-9 mx-auto">
       <div class="row">
         {%for product in object_list%}
-        <a href="#" class="clickable-div">
+        <a href="{% url 'store:product_detail' product.id product.slug %}" class="clickable-div">
           <div class="row products mt-1 border-top">
             <div class="col-4 mt-1 mb-1 ">
-              <img class="img-fluid rounded float-start w-10" src="{{ product.image.url}}" alt="product_image" />
+              <img class="img-fluid rounded float-start" src="{{ product.image.url}}" alt="product_image" />
             </div>
             <div class="col-2 m-auto ">
               <h4>{{product.name}}</h4>
-              <h5>{{product.price}} zł</h5>
+              <h5>${{product.price}}</h5>
             </div>
           </div>
         </a>

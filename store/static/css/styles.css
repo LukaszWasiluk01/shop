@@ -29,3 +29,8 @@
     margin-left: auto;
   }
 }
+
+@media (min-width: 576px) {
+  .margin-top{
+  margin-top:5%;
+} }
