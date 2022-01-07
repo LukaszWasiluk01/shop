@@ -1,0 +1,10 @@
+{% extends 'store/base.html' %}
+
+{% block body %}
+
+<form method="post" action="{% url 'users:register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button name="Submit">Register</button>
+</form>
+{% endblock %}

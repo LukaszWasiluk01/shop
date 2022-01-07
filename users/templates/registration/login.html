@@ -1,0 +1,17 @@
+{% extends 'store/base.html' %}
+
+{% block body %}
+
+{% if form.errors %}
+<p>Invalid username or password. Please try again.</p>
+{% endif %}
+
+<form method="post" action="{% url 'users:login' %}">
+{% csrf_token %}
+{{ form.as_p }}
+
+<button name="Submit">Login</button>
+<input type="hidden" name="next" value="{% url 'store:index' %}">
+</form>
+
+{% endblock %}
