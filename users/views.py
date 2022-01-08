@@ -14,10 +14,10 @@ def register(request):
             Address.objects.create(user = user)
             username= form.cleaned_data.get("username")
             messages.success(request,f'Welcome {username}, your account is created')
-            return redirect('users:login')
+            return redirect('login')
     else:
         form= RegisterForm()
-    return render(request,'registration/register.html', {'form':form})
+    return render(request,'users/register.html', {'form':form})
 
 @login_required
 def address(request):

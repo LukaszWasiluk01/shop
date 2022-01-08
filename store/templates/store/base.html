@@ -38,12 +38,13 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'password_change' %}">Change Password</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
             </ul>
           </li>
           {% else %}
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'users:login' %}"><strong>Login</strong></a>
+            <a class="nav-link " href="{% url 'login' %}"><strong>Login</strong></a>
           </li>
           <li class="nav-item ">
             <a class="nav-link " href="{% url 'users:register' %}"><strong>Register</strong></a>
