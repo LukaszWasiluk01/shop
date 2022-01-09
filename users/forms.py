@@ -15,4 +15,4 @@ User._meta.get_field('email')._unique = True
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
-        fields = ['street', 'house_number', 'zip_code', 'city']
+        fields = ['street', 'house_number', 'zip_code', 'city', 'phone_number']

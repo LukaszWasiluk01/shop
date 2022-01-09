@@ -1,10 +1,24 @@
 {% extends 'store/base.html' %}
 
 {% block body %}
-
-<form method="post" action="{% url 'users:register' %}">
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6 offset-md-3 text-center mt-5">
+            <h1 class="mb-4">Register</h2>
+            <hr>
+<form method="post" class="form-control form-control-lg border-0" action="{% url 'users:register' %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button name="Submit">Register</button>
+    {% for field in form %}
+    {% if field.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{field.errors}}
+    </div>
+    {% endif %}
+    <p>{{field.label}}: {{field}}</p>
+    {% endfor %}
+    <button class="btn btn-primary" name="Submit">Register</button>
 </form>
+</div>
+</div>
+</div>
 {% endblock %}
