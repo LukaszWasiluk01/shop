@@ -6,15 +6,15 @@
   <div class="row text-center">
     <div class="col-sm-12 col-md-2 mt-1 ">
       <div class="row border">
-        <form>
+        <form method="GET">
           <div class="col-12">
             <label class="fs-5 fw-bolder mt-3">Categories</label>
           </div>
           <div class="col-12">
-            <select class="form-select lwidth m-auto my-3" aria-label="Default select example">
+            <select class="form-select lwidth m-auto my-3" name="category">
               <option selected>Categories</option>
               {% for category in category_list%}
-              <option value="{{category.name}}">{{category.name}}</option>
+              <option value="{{category.name}}" >{{category.name}}</option>
               {% endfor %}
             </select>
           </div>
@@ -22,11 +22,11 @@
             <label class="fs-5 fw-bolder">Price</label>
           </div>
           <div class="col-12">
-            <input type="text" class="form-control" placeholder="From" aria-label="Min Price">
+            <input type="text" class="form-control" placeholder="From" aria-label="Min Price" name="min_price">
           </div>
           <label class="fs-5 fw-bolder ">-</label>
           <div class="col-12 ">
-            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price">
+            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price" name="max_price">
           </div>
           <button class="btn btn-outline-primary my-3" type="submit">Apply filters</button>
       </div>
