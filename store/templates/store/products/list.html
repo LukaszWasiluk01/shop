@@ -7,14 +7,15 @@
     <div class="col-sm-12 col-md-2 mt-1 ">
       <div class="row border">
         <form method="GET">
+          <input name="title" type="hidden" value="{{request.session.title}}">
           <div class="col-12">
             <label class="fs-5 fw-bolder mt-3">Categories</label>
           </div>
           <div class="col-12">
             <select class="form-select lwidth m-auto my-3" name="category">
-              <option selected>Categories</option>
+              <option selected>{{request.session.category}}</option>
               {% for category in category_list%}
-              <option value="{{category.name}}" >{{category.name}}</option>
+              <option value="{{category.name}}">{{category.name}}</option>
               {% endfor %}
             </select>
           </div>
@@ -22,11 +23,13 @@
             <label class="fs-5 fw-bolder">Price</label>
           </div>
           <div class="col-12">
-            <input type="text" class="form-control" placeholder="From" aria-label="Min Price" name="min_price">
+            <input type="text" class="form-control" placeholder="From" aria-label="Min Price" name="min_price"
+              value="{{request.session.min_price}}">
           </div>
           <label class="fs-5 fw-bolder ">-</label>
           <div class="col-12 ">
-            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price" name="max_price">
+            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price" name="max_price"
+              value="{{request.session.max_price}}">
           </div>
           <button class="btn btn-outline-primary my-3" type="submit">Apply filters</button>
       </div>
@@ -51,14 +54,16 @@
     </div>
   </div>
 </div>
-
+{% with path=request.get_full_path %}
 <ul class="pagination justify-content-center pagination-lg mt-4">
   {% if page_obj.has_previous %}
   <li class="page-item">
-    <a class="page-link" href="?page=1">First</a>
+    <a class="page-link"
+      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}1">First</a>
   </li>
   <li class="page-item">
-    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    <a class="page-link"
+      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.previous_page_number }}">Previous</a>
   </li>
   {% else %}
   <li class="page-item disabled">
@@ -73,10 +78,12 @@
   </li>
   {% if page_obj.has_next %}
   <li class="page-item">
-    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+    <a class="page-link"
+      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.next_page_number }}">Next</a>
   </li>
   <li class="page-item">
-    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    <a class="page-link"
+      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.paginator.num_pages }}">Last</a>
   </li>
   {% else %}
   <li class="page-item disabled">
@@ -87,4 +94,5 @@
   </li>
   {% endif %}
 </ul>
+{% endwith %}
 {% endblock body %}

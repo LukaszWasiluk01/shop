@@ -22,7 +22,8 @@
       </button>
       <div class="collapse navbar-collapse my-2" id="navbarColor01">
         <form class="d-flex mx-auto">
-          <input class="form-control me-2 xxlwidth" type="search" placeholder="Search" aria-label="Search" name="title">
+          <input class="form-control me-2 xxlwidth" type="search" placeholder="Search" aria-label="Search" name="title"
+            value="{{request.session.title}}">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
         <ul class="navbar-nav mb-2 mb-lg-0 ">
