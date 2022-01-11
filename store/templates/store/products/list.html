@@ -1,4 +1,5 @@
 {% extends "store/base.html" %}
+{% load store_tags %}
 {% block title %} Shop{% endblock title %}
 {%block body %}
 
@@ -23,12 +24,12 @@
             <label class="fs-5 fw-bolder">Price</label>
           </div>
           <div class="col-12">
-            <input type="text" class="form-control" placeholder="From" aria-label="Min Price" name="min_price"
+            <input type="number" class="form-control" min="0" placeholder="From" aria-label="Min Price" name="min_price"
               value="{{request.session.min_price}}">
           </div>
           <label class="fs-5 fw-bolder ">-</label>
           <div class="col-12 ">
-            <input type="text" class="form-control mt-1" placeholder="To" aria-label="Max Price" name="max_price"
+            <input type="number" class="form-control mt-1" min="0" placeholder="To" aria-label="Max Price" name="max_price"
               value="{{request.session.max_price}}">
           </div>
           <button class="btn btn-outline-primary my-3" type="submit">Apply filters</button>
@@ -54,16 +55,16 @@
     </div>
   </div>
 </div>
-{% with path=request.get_full_path %}
+{% with path=request.get_full_path page_len=request.GET.page|length|negate|stringformat:"s" %}
 <ul class="pagination justify-content-center pagination-lg mt-4">
   {% if page_obj.has_previous %}
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}1">First</a>
+      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}1">First</a>
   </li>
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.previous_page_number }}">Previous</a>
+      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.previous_page_number }}">Previous</a>
   </li>
   {% else %}
   <li class="page-item disabled">
@@ -79,11 +80,11 @@
   {% if page_obj.has_next %}
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.next_page_number }}">Next</a>
+      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.next_page_number }}">Next</a>
   </li>
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:':-1'}}{% else %}{{path}}&page={% endif %}{{ page_obj.paginator.num_pages }}">Last</a>
+      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.paginator.num_pages }}">Last</a>
   </li>
   {% else %}
   <li class="page-item disabled">
