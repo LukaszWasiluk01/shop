@@ -16,3 +16,8 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ['street', 'house_number', 'zip_code', 'city', 'phone_number']
+
+class PersonalInfoForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

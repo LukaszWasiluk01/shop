@@ -29,16 +29,17 @@
           </div>
           <label class="fs-5 fw-bolder ">-</label>
           <div class="col-12 ">
-            <input type="number" class="form-control mt-1" min="0" placeholder="To" aria-label="Max Price" name="max_price"
-              value="{{request.session.max_price}}">
+            <input type="number" class="form-control mt-1" min="0" placeholder="To" aria-label="Max Price"
+              name="max_price" value="{{request.session.max_price}}">
           </div>
-          <button class="btn btn-outline-primary my-3" type="submit">Apply filters</button>
+          <input type="button" class="btn btn-outline-success my-2" value="Reset filters" onclick="resetFilters()">
+          <button class="btn btn-outline-primary my-2" type="submit">Apply filters</button>
       </div>
     </div>
     </form>
     <div class="col-sm-12 col-md-9 mx-auto">
       <div class="row">
-        {%for product in object_list%}
+        {% for product in object_list %}
         <a href="{% url 'store:product_detail' product.id product.slug %}" class="clickable-div">
           <div class="row products mt-1 border-top">
             <div class="col-4 mt-1 mb-1 ">
@@ -50,7 +51,12 @@
             </div>
           </div>
         </a>
-        {%endfor%}
+        {% empty %}
+          <div class="col mt-3">
+            <h3>No results for: "{{request.GET.title}}".</h3>
+            <p>Try checking your spelling or use more general terms.</p>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -96,4 +102,11 @@
   {% endif %}
 </ul>
 {% endwith %}
+
+<script>
+  resetFilters = function () {
+    document.forms["form1"].submit();
+  }
+</script>
+
 {% endblock body %}
