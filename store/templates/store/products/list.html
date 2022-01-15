@@ -7,14 +7,14 @@
   <div class="row text-center">
     <div class="col-sm-12 col-md-2 mt-1 ">
       <div class="row border">
-        <form method="GET">
-          <input name="title" type="hidden" value="{{request.session.title}}">
+        <form method="GET" id="form2">
+          <input name="title" type="hidden" value="{{request.session.title}}" class="form_field">
           <div class="col-12">
             <label class="fs-5 fw-bolder mt-3">Categories</label>
           </div>
           <div class="col-12">
             <select class="form-select lwidth m-auto my-3" name="category">
-              <option selected>{{request.session.category}}</option>
+              <option selected class="form_field fw-bold">{{request.session.category}}</option>
               {% for category in category_list%}
               <option value="{{category.name}}">{{category.name}}</option>
               {% endfor %}
@@ -24,16 +24,16 @@
             <label class="fs-5 fw-bolder">Price</label>
           </div>
           <div class="col-12">
-            <input type="number" class="form-control" min="0" placeholder="From" aria-label="Min Price" name="min_price"
-              value="{{request.session.min_price}}">
+            <input type="number" class="form-control form_field" min="0" placeholder="From" aria-label="Min Price"
+              name="min_price" value="{{request.session.min_price}}">
           </div>
           <label class="fs-5 fw-bolder ">-</label>
           <div class="col-12 ">
-            <input type="number" class="form-control mt-1" min="0" placeholder="To" aria-label="Max Price"
+            <input type="number" class="form-control mt-1 form_field" min="0" placeholder="To" aria-label="Max Price"
               name="max_price" value="{{request.session.max_price}}">
           </div>
-          <input type="button" class="btn btn-outline-success my-2" value="Reset filters" onclick="resetFilters()">
-          <button class="btn btn-outline-primary my-2" type="submit">Apply filters</button>
+          <input type="button" class="btn btn-outline-success my-2" value="Reset filters" onclick="resetFilters();">
+          <button class="btn btn-outline-primary my-2" onclick="checkAndSubmit();">Apply filters</button>
       </div>
     </div>
     </form>
@@ -52,25 +52,24 @@
           </div>
         </a>
         {% empty %}
-          <div class="col mt-3">
-            <h3>No results for: "{{request.GET.title}}".</h3>
-            <p>Try checking your spelling or use more general terms.</p>
-          </div>
+        <div class="col mt-3">
+          <h3>No results for: "{{request.GET.title}}".</h3>
+          <p>Try checking your spelling or use more general terms.</p>
+        </div>
         {% endfor %}
       </div>
     </div>
   </div>
 </div>
-{% with path=request.get_full_path page_len=request.GET.page|length|negate|stringformat:"s" %}
 <ul class="pagination justify-content-center pagination-lg mt-4">
   {% if page_obj.has_previous %}
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}1">First</a>
+      href="{{ pagination_url }}1">First</a>
   </li>
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.previous_page_number }}">Previous</a>
+      href="{{ pagination_url}}{{ page_obj.previous_page_number }}">Previous</a>
   </li>
   {% else %}
   <li class="page-item disabled">
@@ -86,11 +85,11 @@
   {% if page_obj.has_next %}
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.next_page_number }}">Next</a>
+      href="{{ pagination_url}}{{ page_obj.next_page_number }}">Next</a>
   </li>
   <li class="page-item">
     <a class="page-link"
-      href="{% if request.GET.page %}{{path|slice:page_len}}{% else %}{{path}}&page={% endif %}{{ page_obj.paginator.num_pages }}">Last</a>
+      href="{{ pagination_url}}{{ page_obj.paginator.num_pages }}">Last</a>
   </li>
   {% else %}
   <li class="page-item disabled">
@@ -101,12 +100,38 @@
   </li>
   {% endif %}
 </ul>
-{% endwith %}
 
 <script>
-  resetFilters = function () {
-    document.forms["form1"].submit();
+  checkAndSubmit = function () {
+    event.preventDefault()
+    var elements = document.getElementsByClassName("form_field");
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].value === undefined || elements[i].value === "") {
+        elements[i].disabled = true;
+      } else {
+        elements[i].disabled = false;
+      }
+    }
+    document.getElementById("form2").submit();
+
   }
+  resetFilters = function () {
+    event.preventDefault()
+    var elements = document.getElementsByClassName("form_field");
+    if (elements[0].value === undefined || elements[0].value === "") {
+      location.href = "/"
+    } else {
+      elements[0].disabled = false;
+      // Starting with 1 to skip hidden "title" input
+      for (var i = 1; i < elements.length; i++) {
+        elements[i].value = undefined;
+        elements[i].disabled = true;
+      }
+      document.getElementById("form2").submit();
+    }
+
+  }
+
 </script>
 
 {% endblock body %}

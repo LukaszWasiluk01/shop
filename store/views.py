@@ -7,11 +7,26 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     template_name = "store/products/list.html"
-    paginate_by = 6
+    paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
+
+        base_url = self.request.get_full_path()
+        if self.request.GET:
+            page = self.request.GET.get('page')
+            if page:
+                number = len(page)
+                number *= -1
+                base_url = base_url[:number]
+                print('base_url: ', base_url)
+            else:
+                base_url += "&page="
+        else:
+            base_url += "?page="
+
+        context['pagination_url'] = base_url
         return context
 
     def get_queryset(self):
@@ -24,7 +39,7 @@ class ProductListView(ListView):
 
         queryset = Product.objects.filter(available=True)
         
-        if selectors['category'] and selectors['category'] != "Categories":
+        if selectors['category']:
             queryset = queryset.filter(category__name=selectors['category'])
             self.request.session['category'] = selectors['category']
         else:
@@ -48,7 +63,6 @@ class ProductListView(ListView):
             queryset = queryset.filter(name__icontains=selectors['title'])
             self.request.session['title'] = selectors['title']
         else:
-            queryset = queryset[0:6]
             self.request.session['title'] = ""
         
         self.request.session.modified = True
