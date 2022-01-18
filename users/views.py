@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import RegisterForm, AddressForm, PersonalInfoForm
-from django.contrib.auth.models import User
 from .models import Address
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -50,3 +49,4 @@ def personal_info(request):
     else:
         form = PersonalInfoForm(instance=request.user)
     return render(request,'users/personal_info.html', {'form':form})
+

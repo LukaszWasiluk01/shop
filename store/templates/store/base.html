@@ -27,6 +27,9 @@
           <button class="btn btn-outline-light" onclick="checkSearch();" id="search_button">Search</button>
         </form>
         <ul class="navbar-nav mb-2 mb-lg-0 ">
+          <li class="nav-item ">
+            <a class="nav-link fw-bold" id="cart" href="{% url 'store:cart_detail' %}">Cart(0)</a>
+          </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -46,10 +49,10 @@
           </li>
           {% else %}
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'login' %}"><strong>Login</strong></a>
+            <a class="nav-link fw-bolder" href="{% url 'login' %}">Login</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link " href="{% url 'users:register' %}"><strong>Register</strong></a>
+            <a class="nav-link fw-bolder" href="{% url 'users:register' %}">Register</a>
           </li>
           {% endif %}
           </li>
@@ -75,12 +78,12 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>
 
-  <script>
+  <script type="text/javascript">
     checkSearch = function () {
-      event.preventDefault()
+      event.preventDefault();
       var element = document.getElementById("search_field");
-      if (element.value !== undefined &&  element.value !== "") {
-        document.getElementById("form1").submit();  
+      if (element.value !== undefined && element.value !== "") {
+        document.getElementById("form1").submit();
       }
     }
   </script>

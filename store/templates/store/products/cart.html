@@ -1,0 +1,49 @@
+{% extends 'store/base.html' %}
+
+{% block body %}
+<h1 class="text-center my-4">Cart</h1>
+<div class="container">
+    <div class="row mb-2 justify-content-center">
+        <div class="col-2 d-flex justify-content-center">Photo</div>
+        <div class="col-2 d-flex justify-content-center">Product</div>
+        <div class="col-2 d-flex justify-content-center">Quantity</div>
+        <div class="col-2 d-flex justify-content-center">Delete</div>
+        <div class="col-2 d-flex justify-content-center">Price per item</div>
+        <div class="col-2 d-flex justify-content-center">Total price</div>
+    </div>
+    {% for item in cart %}
+    {% with product=item.product %}
+    <div class="row border-top justify-content-center p-2">
+        <div class="col-2 d-flex justify-content-center">
+            <a href="{{ product.get_absolute_url }}">
+                <img class="img-fluid rounded float-start" src="{{ product.image.url}}" alt="product_image" />
+            </a>
+        </div>
+        <div class="col-2 d-flex justify-content-center">{{ product.name }}</div>
+        <div class="col-2 d-flex justify-content-center">
+            <form action="{% url 'store:cart_add' product.id %}" method="post">
+                {{ item.update_quantity_form.quantity }}
+                {{ item.update_quantity_form.override }}
+                <button type="submit" class="btn btn-primary">Update</button>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+            <form action="{% url 'store:cart_remove' product.id %}" method="post">
+                <button type="submit" class="btn btn-danger">Delete</button>
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="col-2 d-flex justify-content-center">${{ item.price }}</div>
+        <div class="col-2 d-flex justify-content-center">${{ item.total_price }}</div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+    <div class="row">
+        <p class="text-end">Total:</p>
+        <p class="text-end">${{ cart.get_total_price }}</p>
+    <p class="text-end">
+        <a href="{% url 'store:index' %}" class="btn btn-primary">Continue shopping</a>
+    </p>
+</div>
+{% endblock %}

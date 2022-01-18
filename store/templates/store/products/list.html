@@ -1,5 +1,4 @@
 {% extends "store/base.html" %}
-{% load store_tags %}
 {% block title %} Shop{% endblock title %}
 {%block body %}
 
@@ -101,9 +100,9 @@
   {% endif %}
 </ul>
 
-<script>
+<script type="text/javascript">
   checkAndSubmit = function () {
-    event.preventDefault()
+    event.preventDefault();
     var elements = document.getElementsByClassName("form_field");
     for (var i = 0; i < elements.length; i++) {
       if (elements[i].value === undefined || elements[i].value === "") {
@@ -116,10 +115,10 @@
 
   }
   resetFilters = function () {
-    event.preventDefault()
+    event.preventDefault();
     var elements = document.getElementsByClassName("form_field");
     if (elements[0].value === undefined || elements[0].value === "") {
-      location.href = "/"
+      location.href = "/";
     } else {
       elements[0].disabled = false;
       // Starting with 1 to skip hidden "title" input

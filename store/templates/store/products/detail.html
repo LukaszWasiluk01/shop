@@ -1,5 +1,4 @@
 {% extends 'store/base.html'%}
-
 {% block body %}
 
 <div class="container-fluid">
@@ -12,8 +11,13 @@
             <p>{{ product.description }}</p>
         </div>
         <div class="col-md-2">
-            <p>${{ product.price }} </p>
+            <p>${{ product.price }}</p>
             <p>Quantity left: {{ product.quantity_left }}</p>
+            <form action="{% url 'store:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                {{ cart_product_form }}
+                <button type="submit" class="btn btn-primary my-2">Add to cart</button>
+            </form>
         </div>
     </div>
 </div>

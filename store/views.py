@@ -1,13 +1,17 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from .models import Product, Category
+from .cart import Cart
+from .forms import CartAddProductForm
+
 
 # Create your views here.
 class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     template_name = "store/products/list.html"
-    paginate_by = 1
+    paginate_by = 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,6 +77,37 @@ def product_detail(request, id, slug):
                                 id=id,
                                 slug=slug,
                                 available=True)
+    cart_product_form = CartAddProductForm(product.quantity_left)
     return render(request,
                   'store/products/detail.html',
-                  {'product':product})
+                  {'product':product,
+                  'cart_product_form':cart_product_form,})
+
+@require_POST
+def cart_add(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    form = CartAddProductForm(product.quantity_left,request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(product=product,
+                 quantity=cd['quantity'],
+                 override_quantity=cd['override'])
+    return redirect('store:cart_detail')
+
+
+@require_POST
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    return redirect('store:cart_detail')
+
+
+def cart_detail(request):
+    cart = Cart(request)
+    for item in cart:
+        product = get_object_or_404(Product, id=item['product'].id)
+        item['update_quantity_form'] = CartAddProductForm(product.quantity_left,initial={'quantity': item['quantity'],
+                                                                   'override': True})
+    return render(request, 'store/products/cart.html', {'cart': cart})
