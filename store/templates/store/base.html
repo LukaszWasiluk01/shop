@@ -28,7 +28,7 @@
         </form>
         <ul class="navbar-nav mb-2 mb-lg-0 ">
           <li class="nav-item ">
-            <a class="nav-link fw-bold" id="cart" href="{% url 'store:cart_detail' %}">Cart(0)</a>
+            <a class="nav-link fw-bold" id="cart" href="{% url 'store:cart_detail' %}">Cart({{ cart|length }})</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
