@@ -1,0 +1,49 @@
+{% extends 'store/base.html' %}
+
+{% block body %}
+<h1 class="text-center my-3">Order summary</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 offset-1 my-2">
+            <h3 class="ms-3"> Shipping address </h3>
+            <form id="form_cart" method="post" class="form-control form-control-lg border-0" action=".">
+                {% csrf_token %}
+                {% for field in form %}
+                {% if field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{field.errors}}
+                </div>
+                {% endif %}
+                <p>{{field.label}}: {{field}}</p>
+                {% endfor %}
+            </form>
+        </div>
+        <div class="col-md-5 offset-1 my-2">
+            <h3>Order</h3>
+            <ul>
+                {% for item in cart %}
+                <li>
+                    {{ item.quantity }}x {{ item.product.name }}
+                    <span>${{ item.total_price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <p>Total price: ${{ cart.get_total_price }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end" >
+            <button class="btn btn-primary" name="submit" onclick="submit_order();">Confirm the order</button>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    submit_order = function () {
+        document.getElementById("form_cart").submit();
+    }
+
+</script>
+
+{% endblock %}

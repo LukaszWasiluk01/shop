@@ -3,6 +3,7 @@
 {% block body %}
 <h1 class="text-center my-4">Cart</h1>
 <div class="container">
+    {% if cart|length > 0 %}
     <div class="row mb-2 justify-content-center">
         <div class="col-2 d-flex justify-content-center">Photo</div>
         <div class="col-2 d-flex justify-content-center">Product</div>
@@ -11,6 +12,13 @@
         <div class="col-2 d-flex justify-content-center">Price per item</div>
         <div class="col-2 d-flex justify-content-center">Total price</div>
     </div>
+    {% else %}
+    <div class="row">
+        <div class="col">
+            <h3 class="text-center">There are no items in the cart.</h3>
+        </div>
+    </div>
+    {% endif %}
     {% for item in cart %}
     {% with product=item.product %}
     <div class="row border-top justify-content-center p-2">
@@ -44,6 +52,9 @@
         <p class="text-end">${{ cart.get_total_price }}</p>
     <p class="text-end">
         <a href="{% url 'store:index' %}" class="btn btn-primary">Continue shopping</a>
+        {% if cart|length > 0 %}
+        <a href="{% url 'orders:order_create' %}" class="btn btn-primary">Continue to payment</a>
+        {% endif %}
     </p>
 </div>
 {% endblock %}
