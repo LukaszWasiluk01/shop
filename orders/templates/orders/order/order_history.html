@@ -1,0 +1,43 @@
+{% extends 'store/base.html' %}
+{% block body %}
+<div class="container ">
+    <h1 class="text-center my-3">Order history</h1>
+    <div class="row">
+        <div class="col mb-4">
+            <form class="d-flex justify-content-center" action="{% url 'orders:order_history'%}">
+                <input class="form-control  xxlwidth" type="search" placeholder="Search" aria-label="Search"
+                    name="order_search">
+                <button class="btn btn-outline-primary ms-2">Search</button>
+            </form>
+        </div>
+    </div>
+    {% for order in orders %}
+    <div class="row bg-grey ">
+        <div class="col-6 text-start"><span class="fw-bold">{% if not order.paid %} Not {% endif %}Paid</span></div>
+        <div class="col-6 text-end">{{order.created}}</div>
+    </div>
+    <div class="row bg-lightgrey mb-5">
+        {% for product in order.items.all %}
+        <div class="col-1">
+            <img class="img-fluid rounded" src="{{ product.product.image.url}}" alt="product_image" />
+        </div>
+        <div class="col-4">
+            <a class="no-underline" href="{{product.product.get_absolute_url}}">
+                {{ product.product.name }}
+            </a>
+        </div>
+        <div class="col-4"> {{product.quantity}} x {{product.price}}</div>
+        <div class="col-3"> ${{ product.get_cost }}</div>
+        {% endfor %}
+        <div class="col text-end">Total: ${{order.get_total_cost}}</div>
+        <hr>
+        <a class="btn btn-primary" href="{% url 'orders:order_address_detail' id=order.id %}">
+            <div class="col-12 text-center ">
+                Address detail
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

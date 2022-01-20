@@ -1,3 +1,15 @@
+.no-underline{
+  text-decoration: none;
+}
+
+.bg-grey{
+  background-color: grey;
+}
+
+.bg-lightgrey{
+  background-color: lightgray;
+}
+
 .card-image-product {
   width: 15rem;
   margin: 0, 9%;

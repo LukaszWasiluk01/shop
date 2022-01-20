@@ -1,0 +1,15 @@
+{% extends 'store/base.html' %}
+
+<div class="container">
+    <div class="row ">
+        {% block body %}
+
+        <div class="col-md-4 offset-md-4 text-center mt-5 b-1">
+            <h1 class="mb-3">Order address</h1>
+            {% for field in form %}
+            <p >{{field.label}} : {{field.value}}</p>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </div>
+</div>
