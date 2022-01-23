@@ -14,7 +14,7 @@
     {% for order in orders %}
     <div class="row bg-grey ">
         <div class="col-6 text-start"><span class="fw-bold">{% if not order.paid %} Not {% endif %}Paid</span></div>
-        <div class="col-6 text-end">{{order.created}}</div>
+        <div class="col-6 text-end"><span class="fw-bold">{{order.created}}</span></div>
     </div>
     <div class="row bg-lightgrey mb-5">
         {% for product in order.items.all %}
