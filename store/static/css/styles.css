@@ -1,7 +1,10 @@
-.no-underline{
-  text-decoration: none;
+.no-margin{
+  margin: 0rem;
 }
 
+.form_field{
+  width:100%;
+}
 .bg-grey{
   background-color: grey;
 }
