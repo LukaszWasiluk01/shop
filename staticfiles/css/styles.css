@@ -1,0 +1,51 @@
+.no-margin{
+  margin: 0rem;
+}
+
+.form_field{
+  width:100%;
+}
+.bg-grey{
+  background-color: grey;
+}
+
+.bg-lightgrey{
+  background-color: lightgray;
+}
+
+.card-image-product {
+  width: 15rem;
+  margin: 0, 9%;
+}
+
+.products:hover {
+  background-color: lightgray;
+}
+
+.clickable-div,
+.clickable-div:hover,
+.clickable-div:focus,
+.clickable-div:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 992px) 
+{ 
+  .xxlwidth {
+    width: 30rem;
+  }
+  
+  .lwidth {
+    width: 10rem;
+  }
+
+  .nav-margin-start{
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .margin-top{
+  margin-top:5%;
+} }
