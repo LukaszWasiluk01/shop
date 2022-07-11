@@ -1,4 +1,4 @@
-# Shop https://shop-ec.herokuapp.com/
+# Shop
 # Setup:
 
 Make .env file which should contain:
